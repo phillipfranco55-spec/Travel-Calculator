@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D&D Travel Calculator</title>
+<style>
+:root{color-scheme:dark;--bg:#151923;--panel:#202737;--line:#3a455a;--text:#f2f4f8;--muted:#bac3d2;--accent:#d9b56d}
+*{box-sizing:border-box}body{margin:0;padding:24px;font:16px/1.5 system-ui,sans-serif;background:linear-gradient(145deg,#151923,#252033);color:var(--text)}
+main{max-width:780px;margin:auto}h1{margin:0 0 4px;font-size:clamp(1.7rem,4vw,2.4rem)}.sub{color:var(--muted);margin:0 0 22px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+label{display:block;font-weight:650;margin-bottom:6px}select,input{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;background:#121722;color:var(--text);font:inherit}
+.result{border:1px solid #74613b;background:#2b2a27;border-radius:14px;padding:18px;margin-top:18px}
+.big{font-size:2rem;font-weight:800;color:var(--accent);line-height:1.2}.muted{color:var(--muted);font-size:.92rem}
+button{padding:10px 14px;border:1px solid var(--line);border-radius:9px;background:#303b50;color:var(--text);font:inherit;cursor:pointer}button:hover{border-color:var(--accent)}
+ul{padding-left:20px}.note{font-size:.88rem;color:var(--muted)}footer{color:var(--muted);font-size:.85rem;margin:22px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>⚔ D&D Travel Calculator</h1>
+<p class="sub">Estimate daily and total travel distance with terrain, weather, and travel method.</p>
+<section class="panel">
+<div class="grid">
+<div><label for="mode">Travel method</label><select id="mode"><option value="walking">Walking</option><option value="horse">Horseback</option><option value="boat">Boat / sailing ship</option><option value="spelljammer">Spelljammer — Wildspace estimate</option></select></div>
+<div id="paceWrap"><label for="pace">Walking pace</label><select id="pace"><option value="slow">Slow — 18 miles base</option><option value="normal" selected>Normal — 24 miles base</option><option value="fast">Fast — 30 miles base</option></select></div>
+<div id="terrainWrap"><label for="terrain">Terrain</label><select id="terrain"><option value="road">Road / open plain</option><option value="plains">Grassland / gentle hills</option><option value="forest">Forest</option><option value="dense">Dense forest / rocky hills</option><option value="mountains">Mountains</option><option value="swamp">Swamp / marsh</option><option value="desert">Desert dunes</option><option value="jungle">Jungle</option><option value="tundra">Arctic tundra</option><option value="snow">Deep snow / glacier</option></select></div>
+<div><label for="weather">Weather / conditions</label><select id="weather"><option value="clear">Clear and mild</option><option value="rain">Light rain</option><option value="heavyRain">Heavy rain</option><option value="storm">Thunderstorm / storm</option><option value="fog">Dense fog</option><option value="heat">Extreme heat</option><option value="cold">Extreme cold</option><option value="snow">Heavy snow</option><option value="blizzard">Blizzard</option><option value="headwind">Strong headwind</option><option value="tailwind">Favorable tailwind</option></select></div>
+<div><label for="days">Number of travel days</label><input id="days" type="number" min="1" max="365" value="1"></div>
+</div>
+<div class="result" aria-live="polite">
+<div class="muted">Estimated daily travel</div><div class="big" id="daily">24 miles/day</div>
+<div class="muted" style="margin-top:12px">Estimated total distance</div><div class="big" id="total">24 miles</div>
+<p id="explain" class="note"></p>
+</div>
+</section>
+<section class="panel">
+<h2>Quick reference</h2>
+<ul>
+<li><b>Walking:</b> slow 18, normal 24, fast 30 miles per day before modifiers.</li>
+<li><b>Horseback:</b> about 30–40 miles on a good road; reduce for difficult routes and poor weather.</li>
+<li><b>Boat:</b> often 30–60 miles per day in ordinary sailing conditions; favorable wind can increase this.</li>
+<li><b>Spelljammer:</b> use journey-time guidance for destinations. This calculator's 100-million-mile/day scale is a homebrew placeholder, not an official universal speed.</li>
+</ul>
+<p class="note">These are homebrew estimates, not official rules. Actual progress can be affected by rests, getting lost, hazards, vessel type, currents, crew, and encounter delays. Tailwind and headwind modifiers primarily apply to boats.</p>
+</section>
+<footer>DM tip: use the estimate as a starting point, then let interesting events—not constant rolls—shape the journey.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const terrain={road:1,plains:.9,forest:.75,dense:.6,mountains:.5,swamp:.5,desert:.6,jungle:.4,tundra:.6,snow:.35};
+const weather={clear:1,rain:.9,heavyRain:.7,storm:.5,fog:.6,heat:.7,cold:.7,snow:.5,blizzard:.2,headwind:.7,tailwind:1.2};
+function calculate(){
+ const mode=$('mode').value, pace=$('pace').value, t=$('terrain').value, w=$('weather').value;
+ let base=mode==='walking'?({slow:18,normal:24,fast:30}[pace]):mode==='horse'?35:mode==='boat'?50:100000000;
+ let tm=mode==='spelljammer'?1:mode==='boat'?1:terrain[t];
+ let wm=mode==='boat'?(w==='headwind'?.5:w==='tailwind'?1.5:w==='storm'?.25:w==='fog'?.7:w==='heavyRain'?.7:weather[w]):mode==='spelljammer'?1:weather[w];
+ let daily=base*tm*wm;
+ const days=Math.max(1,Math.min(365,Number.parseInt($('days').value)||1));
+ $('paceWrap').style.display=mode==='walking'?'block':'none';
+ $('terrainWrap').style.display=(mode==='boat'||mode==='spelljammer')?'none':'block';
+ if(mode==='spelljammer'){
+   $('daily').textContent=(daily/1e6).toLocaleString(undefined,{maximumFractionDigits:1})+' million miles/day';
+   $('total').textContent=(daily*days/1e6).toLocaleString(undefined,{maximumFractionDigits:1})+' million miles';
+   $('explain').textContent='Abstract Wildspace campaign scale only. For Astral Sea travel, track journey time by destination instead.';
+ }else{
+   $('daily').textContent=Math.round(daily).toLocaleString()+' miles/day';
+   $('total').textContent=Math.round(daily*days).toLocaleString()+' miles';
+   $('explain').textContent=`Calculation: ${base} base × ${tm} terrain × ${wm} weather/conditions. Approximate only; delays and rests are not included.`;
+ }
+}
+['mode','pace','terrain','weather','days'].forEach(id=>$(id).addEventListener('input',calculate));
+calculate();
+</script>
+</body></html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D&D Random Weather Table</title>
+<style>
+:root{color-scheme:dark;--bg:#111827;--panel:#202c40;--ink:#f4f6fb;--muted:#c1cadd;--gold:#f4cd72;--line:#465570}
+*{box-sizing:border-box}body{margin:0;padding:24px;background:radial-gradient(ellipse at top,#2a3b58,#111827 65%);color:var(--ink);font-family:Georgia,serif}
+main{max-width:960px;margin:auto}header{text-align:center;margin:8px 0 24px}.eyebrow{color:var(--gold);font:700 .78rem system-ui;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:clamp(2rem,6vw,3.2rem);margin:.4rem 0}header p,.desc,.small,.hint{font-family:system-ui;line-height:1.55;color:var(--muted)}
+.layout{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start}section{padding:20px;background:linear-gradient(145deg,#26354d,#192337);border:1px solid var(--line);border-radius:15px;box-shadow:0 12px 30px #0003}
+h2{margin:0 0 14px;color:var(--gold);font-size:1.35rem}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+button{cursor:pointer;padding:11px 14px;border-radius:9px;border:1px solid var(--gold);background:linear-gradient(#f6df9e,#d5a842);color:#211a0c;font:700 .95rem system-ui}button:hover{filter:brightness(1.08)}
+button:focus-visible{outline:3px solid white;outline-offset:3px}.result{min-height:175px;padding:18px;border:1px solid var(--line);border-radius:12px;background:#111a2a}
+.roll{color:var(--gold);font:700 .8rem system-ui;letter-spacing:.1em;text-transform:uppercase}.weather-name{font-size:1.8rem;margin:8px 0}.desc{font-size:.98rem}
+.tag{display:inline-block;border:1px solid #71819b;border-radius:99px;padding:4px 9px;margin:10px 6px 0 0;color:#e2e9f7;font: .78rem system-ui}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font:.9rem/1.4 system-ui}th,td{text-align:left;vertical-align:top;padding:9px;border-bottom:1px solid var(--line)}th{color:var(--gold);text-transform:uppercase;letter-spacing:.04em;font-size:.78rem}tbody tr:last-child td{border:0}
+.hint{margin-top:15px;padding:12px;border-left:3px solid var(--gold);background:#ffffff08;font-size:.9rem}.small{font-size:.82rem}footer{text-align:center;color:var(--muted);font:.8rem system-ui;margin:18px}
+@media(max-width:740px){body{padding:13px}.layout{grid-template-columns:1fr}section{padding:16px}}
+@media print{body{background:white;color:#111;padding:0}section,.result{background:white;color:#111;box-shadow:none;border-color:#999}.desc,.small,.hint,header p,footer{color:#333}button{display:none}.tag{color:#111}}
+</style></head>
+<body><main>
+<header><div class="eyebrow">Dungeon Master’s Toolkit</div><h1>Fantasy Weather Roller</h1><p>Roll a d20 for the day’s weather, add atmosphere to the journey, and use suggested effects when they fit your campaign.</p></header>
+<div class="layout">
+<section><h2>Roll the Weather</h2><div class="controls"><button id="roll">🎲 Roll d20 Weather</button><button id="print">Print Table</button></div>
+<div class="result" id="result" aria-live="polite"><div class="roll">Ready to roll</div><div class="weather-name">What’s the sky doing?</div><div class="desc">Click the button to reveal the day’s weather.</div></div>
+<div class="hint"><strong>DM tip:</strong> Weather is a storytelling tool first. Apply travel penalties when they make the journey more interesting, not to punish the party for every rainy day.</div></section>
+<section><h2>d20 Weather Table</h2><div class="table-wrap"><table><thead><tr><th>d20</th><th>Weather</th><th>Suggested effect</th></tr></thead><tbody>
+<tr><td>1</td><td>Violent storm</td><td>Exposed travel may be dangerous; seek shelter.</td></tr>
+<tr><td>2–3</td><td>Heavy rain or snow</td><td>Visibility drops; muddy or snowy ground slows travel.</td></tr>
+<tr><td>4–5</td><td>Dense fog</td><td>Short sightlines; navigation may be harder.</td></tr>
+<tr><td>6–8</td><td>Light rain or drizzle</td><td>Slick ground; camp chores may take longer.</td></tr>
+<tr><td>9–11</td><td>Overcast and cool</td><td>No major effect; the day feels gloomy.</td></tr>
+<tr><td>12–15</td><td>Clear and mild</td><td>Ideal travel conditions.</td></tr>
+<tr><td>16–17</td><td>Warm or hot</td><td>Water and shade become more important.</td></tr>
+<tr><td>18–19</td><td>Strong winds</td><td>Sailing, flying, ranged attacks, or open fires may be affected.</td></tr>
+<tr><td>20</td><td>Magical weather</td><td>Roll on the d6 table below or invent an omen.</td></tr>
+</tbody></table></div><p class="small">System-neutral homebrew. Adjust the effects to fit your edition, terrain, and campaign.</p></section></div>
+<section style="margin-top:18px"><h2>Magical Weather Ideas (roll d6)</h2><div class="table-wrap"><table><thead><tr><th>d6</th><th>Phenomenon</th><th>Story hook</th></tr></thead><tbody>
+<tr><td>1</td><td>Starfall shimmer</td><td>Glittering lights drift down, briefly illuminating hidden tracks.</td></tr>
+<tr><td>2</td><td>Whispering wind</td><td>The breeze carries fragments of voices from far away.</td></tr>
+<tr><td>3</td><td>Color-shifting rain</td><td>Puddles reflect a sky of a different color.</td></tr>
+<tr><td>4</td><td>Gravity mist</td><td>Leaves and loose objects float inches above the ground.</td></tr>
+<tr><td>5</td><td>Phantom aurora</td><td>Bright ribbons of light reveal an unusual constellation.</td></tr>
+<tr><td>6</td><td>Time-touched snowfall</td><td>Snowflakes briefly show scenes from the past when they land.</td></tr>
+</tbody></table></div></section>
+<footer>Made for tabletop fantasy adventures • Save this file and open it in any modern browser.</footer></main>
+<script>
+const data={
+1:["Violent Storm","Thunder cracks overhead and wind drives rain or snow sideways. Exposed travel may be dangerous; consider shelter.",["Severe","Travel hazard"]],
+2:["Heavy Rain or Snow","Precipitation obscures the horizon and turns trails muddy or snow-covered. Reduce travel progress if conditions impede the party.",["Poor visibility","Slow travel"]],
+3:["Heavy Rain or Snow","A steady wall of rain or snow soaks clothing and gear. Streams may swell, and tracks can be washed away or buried.",["Poor visibility","Slow travel"]],
+4:["Dense Fog","Thick fog limits sight to a short distance. Navigation, spotting landmarks, and keeping the group together may require care.",["Low visibility","Navigation"]],
+5:["Dense Fog","Sounds seem close and distant at once as fog fills the low ground. A trail sign might be missed without careful navigation.",["Low visibility","Navigation"]],
+6:["Light Rain or Drizzle","A fine rain dampens the road and leaves stone surfaces slick. Uncomfortable, but rarely dangerous by itself.",["Damp","Minor inconvenience"]],
+7:["Light Rain or Drizzle","Mist beads on cloaks and leaves. Smoke hangs low around camp, and small fires may need extra attention.",["Damp","Camp"]],
+8:["Light Rain or Drizzle","Intermittent showers pass through. Travel continues at a normal pace for well-prepared travelers.",["Damp","Manageable"]],
+9:["Overcast and Cool","Grey clouds cover the sky and a chill settles in. No significant effect unless the region makes the cold dangerous.",["Cool","No major effect"]],
+10:["Overcast and Cool","A quiet, clouded day with occasional gusts. The light is flat and distant landmarks look dull against the sky.",["Cloudy","No major effect"]],
+11:["Overcast and Cool","Low clouds threaten rain but never quite break. The party can travel normally, though the mood is subdued.",["Cloudy","No major effect"]],
+12:["Clear and Mild","Comfortable temperatures, clear skies, and good visibility make this an excellent day for travel.",["Ideal","Good visibility"]],
+13:["Clear and Mild","A gentle breeze crosses the trail. The party can make good progress and easily spot landmarks.",["Ideal","Good visibility"]],
+14:["Clear and Mild","Bright skies and comfortable air make the road pleasant. Campsites should be easy to prepare.",["Ideal","Good visibility"]],
+15:["Clear and Mild","The day is calm and clear, with no weather-related complications expected.",["Ideal","Good visibility"]],
+16:["Warm or Hot","The sun beats down. Encourage water breaks and shade; strenuous travel may be harder in especially hot regions.",["Heat","Hydration"]],
+17:["Warm or Hot","Warm air shimmers above the ground. Water supplies become more valuable and shaded rests may help.",["Heat","Hydration"]],
+18:["Strong Winds","Gusts tug at cloaks and bend trees. Sailing, flying, ranged attacks, or open fires may be affected at the DM’s discretion.",["Wind","Movement"]],
+19:["Strong Winds","Blustery winds make exposed ridges and open decks uncomfortable. Loose objects scatter, and conversation is difficult outdoors.",["Wind","Movement"]],
+20:["Magical Weather","A supernatural phenomenon colors the day. Roll a d6 on the magical weather table or invent an omen tied to the campaign.",["Supernatural","Adventure hook"]]};
+const magic=[["Starfall Shimmer","Glittering lights drift down, briefly illuminating hidden tracks."],["Whispering Wind","The breeze carries fragments of voices from far away."],["Color-Shifting Rain","Puddles reflect a sky of a different color."],["Gravity Mist","Leaves and loose objects float inches above the ground."],["Phantom Aurora","Bright ribbons of light reveal an unusual constellation."],["Time-Touched Snowfall","Snowflakes briefly show scenes from the past when they land."]];
+document.getElementById("roll").addEventListener("click",()=>{const n=Math.floor(Math.random()*20)+1;const w=data[n];let title=w[0],desc=w[1],tags=w[2];if(n===20){const m=magic[Math.floor(Math.random()*6)];title+=": "+m[0];desc=m[1]+" Use it as a strange omen, a clue, or a memorable bit of atmosphere.";tags=["Supernatural","Adventure hook"];}document.getElementById("result").innerHTML='<div class="roll">d20 result: '+n+'</div><div class="weather-name">'+title+'</div><div class="desc">'+desc+'</div>'+tags.map(t=>'<span class="tag">'+t+'</span>').join("");});
+document.getElementById("print").addEventListener("click",()=>window.print());
+</script></body></html>
